@@ -1,0 +1,35 @@
+---
+- name: install httpd
+  hosts: '{{host}}'
+  strategy: free
+  gather_facts: no
+  tasks:
+
+  - name: Install HTTPD
+    package: 
+     name: httpd
+     state: present
+
+  - name: run firewall service
+    service: 
+     name: firewalld
+     state: started
+     enabled: yes
+
+  - name: add http in firewall
+    firewalld:
+     state: enabled
+     permanent: yes
+     immediate: yes
+     port: 80/tcp
+ 
+  - name: create file /var/www/html/index.html
+    copy: 
+     dest: /var/www/html/index.html
+     content: "Welcome to my web server" 
+    
+  - name: run service
+    service: 
+     name: httpd
+     state: started
+     enabled: yes
