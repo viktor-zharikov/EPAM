@@ -2,13 +2,14 @@
 - name: install httpd, add firewall rules, add index.html
   hosts: '{{host}}'
   strategy: free
-  gather_facts: no
+#  gather_facts: no
   tasks:
 
   - name: Install HTTPD
     package: 
      name: httpd
      state: present
+    when: ansible_facts['os_family'] == "RedHat"
 
   - name: run firewall service
     service: 
@@ -33,3 +34,4 @@
      name: httpd
      state: started
      enabled: yes
+    when: ansible_facts['os_family'] == "RedHat"
