@@ -2,7 +2,6 @@
 - name: install httpd, add firewall rules, add index.html
   hosts: '{{host}}'
   strategy: free
-#  gather_facts: no
   tasks:
 
   - name: Install HTTPD
