@@ -1,0 +1,1 @@
+ansible-playbook task{{X}}.yml -e host={{hostname\group from inventory}}
