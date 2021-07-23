@@ -1,5 +1,5 @@
 ---
-- name: delete httpd
+- name: delete apache, run fw, delete 80 tcp from fw, delete index.html
   hosts: '{{host}}'
   gather_facts: no
   tasks:

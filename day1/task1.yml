@@ -1,5 +1,5 @@
 ---
-- name: install httpd
+- name: install httpd, add firewall rules, add index.html
   hosts: '{{host}}'
   strategy: free
   gather_facts: no
@@ -16,7 +16,7 @@
      state: started
      enabled: yes
 
-  - name: add http in firewall
+  - name: add 80 tcp in firewall
     firewalld:
      state: enabled
      permanent: yes
@@ -28,7 +28,7 @@
      dest: /var/www/html/index.html
      content: "Welcome to my web server" 
     
-  - name: run service
+  - name: run service apache
     service: 
      name: httpd
      state: started
