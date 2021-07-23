@@ -2,37 +2,33 @@
 - name: install httpd, add firewall rules, add index.html
   hosts: '{{host}}'
   strategy: free
+  vars:
+        pack:
+              - firewalld
+              - httpd
   tasks:
 
-  - name: Install HTTPD
-    package: 
-     name: "{{ item }}"
-     state: present
-    loop:
-       - httpd
-    when: ansible_facts['os_family'] == "RedHat"
+     - name: Install fw apache
+       yum: 
+        name: "{{ item }}"
+        state: present
+       loop: "{{pack}}"
 
-  - name: run firewall service
-    service: 
-     name: firewalld
-     state: started
-     enabled: yes
+     - name: run services
+       service: 
+        name: "{{item}}"
+        state: started
+        enabled: yes
+       loop: "{{pack}}"
 
-  - name: add 80 tcp in firewall
-    firewalld:
-     state: enabled
-     permanent: yes
-     immediate: yes
-     port: 80/tcp
- 
-  - name: create file /var/www/html/index.html
-    copy: 
-     dest: /var/www/html/index.html
-     content: "Welcome to my web server" 
-    
-  - name: run service apache
-    service: 
-     name: httpd
-     state: started
-     enabled: yes
-    when: ansible_facts['os_family'] == "RedHat"
+     - name: add 80 tcp in firewall
+       firewalld:
+        state: enabled
+        permanent: yes
+        immediate: yes
+        port: 80/tcp
+
+     - name: create index.html
+       copy: 
+        dest: /var/www/html/index.html
+        content: "Welcome to my web server" 
