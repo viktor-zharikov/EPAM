@@ -1,42 +1,25 @@
 ---
-- name: insert in grub cfg
+- name: edit grub cfg
   gather_facts: no
   hosts: '{{host}}'
   become: true
+  vars:
+      varib:
+      - biosdevname 
+      - net.ifnames 
+
   tasks:
 
-      - name: grub set biosdevname=0
-        lineinfile: 
-         name: /etc/default/grub
-         regexp: '^(GRUB_CMDLINE_LINUX=.*)biosdevname=(\d+|)(.*)' #exist 
-         line: '\1biosdevname=0\3'
-         backrefs: yes
-        notify: mkconfig
-
-      - name: grub add biosdevname=0
-        lineinfile: 
-         name: /etc/default/grub
-         regexp: '^(GRUB_CMDLINE_LINUX=(?!.* biosdevname)\"[^\"]+)(\".*)'
-         line: '\1 biosdevname=0\2'
-         backrefs: yes
-        notify: mkconfig
-
-      - name: grub set net.ifnames=0
-        lineinfile:
-         name: /etc/default/grub
-         regexp: '^(GRUB_CMDLINE_LINUX=.*)net\.ifnames=(\d+|)(.*)' #exist
-         line: '\1net.ifnames=0\3'
-         backrefs: yes
-        notify: mkconfig
-
-      - name: grub add net.ifnames=0
-        lineinfile:
-         name: /etc/default/grub
-         regexp: '^(GRUB_CMDLINE_LINUX=(?!.* net\.ifnames)\"[^\"]+)(\".*)'
-         line: '\1 net.ifnames=0\2'
-         backrefs: yes
-        notify: mkconfig
+  - name: edit grub2
+    lineinfile:
+     path: /etc/default/grub
+     regexp: '^(GRUB_CMDLINE_LINUX=(?:(?![" ]{{ item | regex_escape }}=).)*)(?:[" ]{{ item | regex_escape }}=\S+)?(.*")$'
+     line: '\1 {{ item }}=0\2'
+     backrefs: yes
+    loop: "{{varib}}"
+    notify: mkconfig
 
   handlers:
-      - name: mkconfig
-        shell: 'grub2-mkconfig'
+
+  - name: mkconfig
+    shell: 'grub2-mkconfig'
