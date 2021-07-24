@@ -10,7 +10,7 @@
     user:
      name: "{{item.key}}"
      create_home: true
-     comment: "{{item.key}}@example.com {{item.key}}"
+     comment: "{{item.key}}@example.com"
      password: "{{item.value}}"
      update_password: on_create
     loop: "{{ lookup('dict',user) }}"
