@@ -22,4 +22,5 @@
   handlers:
 
   - name: mkconfig
-    shell: 'grub2-mkconfig'
+    command: 
+     cmd: 'grub2-mkconfig'
