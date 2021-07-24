@@ -9,8 +9,8 @@
   - name: Add the users, create home, add comment
     user:
      name: "{{item.key}}"
-     create_home: true
      comment: "{{item.key}}@example.com"
+     create_home: yes
      password: "{{item.value}}"
      update_password: on_create
     loop: "{{ lookup('dict',user) }}"
