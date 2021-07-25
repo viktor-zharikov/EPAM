@@ -20,7 +20,7 @@
         state: enabled
         permanent: yes
         immediate: yes
-        service: httpd
+        service: http
 
      - name: create index.html
        template: 
