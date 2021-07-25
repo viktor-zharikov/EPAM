@@ -1,0 +1,6 @@
+---
+- name: install httpd, add firewall rules, add index.html
+  hosts: '{{host}}'
+  strategy: free
+  roles:
+     - deploy_httpd

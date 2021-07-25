@@ -1,0 +1,7 @@
+---
+# vars file for deploy_httpd
+   pack:
+      - firewalld
+      - httpd
+   
+   text: to my web server

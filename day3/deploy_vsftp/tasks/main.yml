@@ -1,0 +1,45 @@
+---
+# tasks file for deploy_vsftp
+
+
+     - name: Install fw vsftp python modules
+       yum: 
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+       loop: "{{pack}}"
+
+     - name: run services
+       service: 
+        name: "{{item}}"
+        state: started
+        enabled: yes
+       when: item == "firewalld" or item == "vsftpd"
+       loop: "{{pack}}"
+
+     - name: sebool on
+       seboolean:
+        name: "{{item}}"
+        persistent: yes
+        state: on
+       loop: 
+            - ftpd_anon_write
+            - allow_ftpd_full_access
+
+     - name: copy conf file
+       template:
+        src: vsftpd.j2
+        dest: /etc/vsftpd/vsftpd.conf
+
+     - name: add 21 tcp in firewall
+       firewalld:
+        state: enabled
+        permanent: yes
+        immediate: yes
+        port: 21/tcp
+  
+     - name: create catalog upload
+       file:
+        state: directory
+        path: /var/fpt/pub/upload
+        mode: 0333
