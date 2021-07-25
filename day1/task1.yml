@@ -22,12 +22,12 @@
         enabled: yes
        loop: "{{pack}}"
 
-     - name: add 80 tcp in firewall
+     - name: add http in firewall
        firewalld:
         state: enabled
         permanent: yes
         immediate: yes
-        port: 80/tcp
+        service: http
 
      - name: create index.html
        copy: 

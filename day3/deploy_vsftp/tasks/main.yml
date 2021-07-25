@@ -13,7 +13,8 @@
        template:
         src: vsftpd.j2
         dest: /etc/vsftpd/vsftpd.conf
- 
+       notify: templ
+
      - name: run services
        service: 
         name: "{{item}}"
@@ -21,6 +22,7 @@
         enabled: yes
        when: item == "firewalld" or item == "vsftpd"
        loop: "{{pack}}"
+       register: res
 
      - name: sebool on
        seboolean:
@@ -31,16 +33,16 @@
             - ftpd_anon_write
             - allow_ftpd_full_access
 
- 
-     - name: add 21 tcp in firewall
+     - name: add ftp in firewall
        firewalld:
         state: enabled
         permanent: yes
         immediate: yes
-        port: 21/tcp
+        service: ftp
   
      - name: create catalog upload
        file:
         state: directory
-        path: /var/fpt/pub/upload
+        path: /var/ftp/pub/upload
         mode: '0333'
+ 

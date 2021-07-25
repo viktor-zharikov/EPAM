@@ -20,7 +20,7 @@
      state: disabled
      permanent: yes
      immediate: yes
-     port: 80/tcp
+     service: http
 
   - name: delete file /var/www/html/index.html
     file: 
