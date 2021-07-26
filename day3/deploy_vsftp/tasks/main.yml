@@ -21,7 +21,6 @@
         enabled: yes
        when: item == "firewalld" or item == "vsftpd"
        loop: "{{pack}}"
-       register: res
 
      - name: sebool on
        seboolean:
