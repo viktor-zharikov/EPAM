@@ -1,13 +1,2 @@
 ---
 # handlers file for deploy_vsftp
-
-     - name: templ
-       service:
-        name: vsftpd
-        state: restarted
-        enabled: yes
-       when:
-          - item.item == "vsftpd"
-          - not item.changed
-       loop: "{{res.results}}"
-       no_log: yes

@@ -8,12 +8,11 @@
         state: present
         update_cache: yes
        loop: "{{pack}}"
-
+     
      - name: copy conf file
        template:
         src: vsftpd.j2
         dest: /etc/vsftpd/vsftpd.conf
-       notify: templ
 
      - name: run services
        service: 
@@ -45,4 +44,3 @@
         state: directory
         path: /var/ftp/pub/upload
         mode: '0333'
- 

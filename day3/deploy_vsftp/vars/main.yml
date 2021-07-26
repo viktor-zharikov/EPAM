@@ -6,3 +6,9 @@
     - firewalld
     - vsftpd 
 
+  options:
+    - anonymous_enable
+    - local_enable
+    - write_enable
+    - anon_upload_enable
+    - listen
