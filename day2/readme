@@ -1,4 +1,0 @@
-ansible-playbook task1.yml -e host=node1 --ask-vault-pass
-
-vault-password: 1
-user-password: 1
