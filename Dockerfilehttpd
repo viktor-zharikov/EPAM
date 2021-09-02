@@ -1,0 +1,9 @@
+FROM alpine:3.14.1
+
+MAINTAINER Viktor
+
+RUN apk --no-cache add apache2
+
+COPY httpd.conf /etc/apache2/
+
+CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND", "-f", "/etc/apache2/httpd.conf"]

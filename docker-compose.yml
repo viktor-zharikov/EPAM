@@ -1,0 +1,39 @@
+version: "3.8"
+
+services: 
+
+  nginx:
+    image: localhost:5000/nginx
+    mem_limit: 256m
+    mem_reservation: 128M
+    cpus: 0.5
+    volumes:
+     - htdocs:/var/www/localhost/htdocs
+    ports:
+     - 8080:80
+    networks:
+      - nginx_network
+  apache:
+    image: localhost:5000/httpd
+    mem_limit: 256m
+    mem_reservation: 128M
+    cpus: 0.5
+    volumes:
+     - htdocs:/var/www/localhost/htdocs
+    ports:
+     - 8081:8888
+    networks:
+      - apache_network
+     
+networks:
+  nginx_network:
+    driver: bridge
+    name: httpd-network
+  apache_network:
+    driver: bridge
+    name: nginx-network
+    
+volumes:
+   htdocs:
+      external:
+            name: htdocs
